@@ -101,70 +101,83 @@ export default function SlotSelection() {
         padding: '20px 24px', margin: '0 -24px 24px -24px', 
         borderBottom: '1px solid rgba(0,0,0,0.05)' 
       }}>
-        <button onClick={() => navigate(-1)} style={{ position: 'absolute', left: '24px', background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: 0 }}>
+        <button aria-label="Go back" onClick={() => navigate(-1)} style={{ position: 'absolute', left: '24px', background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '8px', margin: '-8px' }}>
           <ChevronLeft size={28} color="var(--text-primary)" />
         </button>
         <h1 style={{ fontSize: '18px', fontWeight: 700, margin: 0, color: 'var(--text-primary)' }}>Choose slot</h1>
       </div>
 
-      <div style={{ display: 'flex', overflowX: 'auto', gap: '24px', paddingBottom: '16px', borderBottom: '1px solid var(--border-color)', marginBottom: '24px', WebkitOverflowScrolling: 'touch' }}>
+      <div role="tablist" style={{ display: 'flex', overflowX: 'auto', gap: '24px', paddingBottom: '16px', borderBottom: '1px solid var(--border-color)', marginBottom: '24px', WebkitOverflowScrolling: 'touch' }}>
         {ranges.map(range => (
-          <div 
+          <button 
             key={range}
+            role="tab"
+            aria-selected={selectedRange === range}
             onClick={() => setSelectedRange(range)}
             style={{ 
               whiteSpace: 'nowrap',
               color: selectedRange === range ? 'var(--text-primary)' : 'var(--text-secondary)',
               fontWeight: selectedRange === range ? 700 : 500,
               position: 'relative',
-              cursor: 'pointer'
+              cursor: 'pointer',
+              background: 'none',
+              border: 'none',
+              padding: '8px 4px',
+              fontSize: '14px',
+              fontFamily: 'inherit'
             }}
           >
             {range}
             {selectedRange === range && (
               <div style={{ position: 'absolute', bottom: '-17px', left: 0, right: 0, height: '3px', background: 'var(--primary-color)', borderRadius: '3px' }} />
             )}
-          </div>
+          </button>
         ))}
       </div>
 
       <div style={{ flex: 1, overflowY: 'auto', paddingRight: '4px' }}>
         {loading ? (
-          <div style={{ textAlign: 'center', padding: '40px' }}>Loading slots...</div>
+          <div style={{ textAlign: 'center', padding: '40px' }} aria-live="polite">Loading slots...</div>
         ) : (
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+          <div role="radiogroup" aria-label="Parking slots" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
             {slots.map(slot => {
               const isLockedByMe = slot.status === 'locked' && slot.lockedBy === user?.id;
               const isUnavailable = slot.status === 'occupied' || (slot.status === 'locked' && !isLockedByMe);
               const isSelected = selectedSlot === slot.id || isLockedByMe;
 
               return (
-                <div 
+                <button 
                   key={slot.id}
+                  role="radio"
+                  aria-checked={isSelected}
+                  aria-disabled={isUnavailable}
+                  aria-label={`Slot ${slot.id}, ${isUnavailable ? 'unavailable' : isSelected ? 'selected' : 'available'}`}
                   onClick={() => handleSlotClick(slot)}
-                  style={{
+                  style={{ 
                     height: '80px',
-                    border: isUnavailable ? '2px dashed var(--locked-color)' : `2px solid ${isSelected ? 'var(--primary-color)' : 'var(--border-color)'}`,
+                    border: `2px ${isUnavailable ? 'dashed' : 'solid'} ${isUnavailable ? 'var(--locked-color)' : isSelected ? 'var(--primary-color)' : 'var(--border-color)'}`,
                     borderRadius: '12px',
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    background: isUnavailable ? 'rgba(148, 163, 184, 0.1)' : isSelected ? 'rgba(79, 70, 229, 0.1)' : 'white',
+                    background: isUnavailable ? 'rgba(148, 163, 184, 0.1)' : isSelected ? 'rgba(188, 160, 220, 0.1)' : 'white',
                     cursor: isUnavailable ? 'not-allowed' : 'pointer',
                     position: 'relative',
-                    transition: 'all 0.2s'
+                    transition: 'all 0.2s',
+                    fontFamily: 'inherit',
+                    padding: 0
                   }}
                 >
                   {isUnavailable ? (
-                    <Lock size={24} color="var(--locked-color)" />
+                    <Lock size={24} color="var(--locked-color)" aria-hidden="true" />
                   ) : isSelected ? (
                     <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'var(--primary-color)', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                      <Check size={20} color="white" />
+                      <Check size={20} color="white" aria-hidden="true" />
                     </div>
                   ) : (
                     <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{slot.id}</span>
                   )}
-                </div>
+                </button>
               );
             })}
           </div>

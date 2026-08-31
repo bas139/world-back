@@ -21,7 +21,7 @@ export default function FloorSelection() {
         padding: '20px 24px', margin: '0 -24px 24px -24px', 
         borderBottom: '1px solid rgba(0,0,0,0.05)' 
       }}>
-        <button onClick={() => navigate(-1)} style={{ position: 'absolute', left: '24px', background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: 0 }}>
+        <button aria-label="Go back" onClick={() => navigate(-1)} style={{ position: 'absolute', left: '24px', background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '8px', margin: '-8px' }}>
           <ChevronLeft size={28} color="var(--text-primary)" />
         </button>
         <h1 style={{ fontSize: '18px', fontWeight: 700, margin: 0, color: 'var(--text-primary)' }}>Choose floor</h1>

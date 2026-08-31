@@ -21,7 +21,7 @@ export default function Ticket() {
 
     const fetchTicket = async () => {
       try {
-        const res = await fetch(`http://localhost:3001/api/ticket/${ticketId}`, {
+        const res = await fetch(`/api/ticket/${ticketId}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         const data = await res.json();
@@ -92,7 +92,7 @@ export default function Ticket() {
 
           <div style={{ background: 'var(--bg-color)', padding: '16px', borderRadius: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
             <span style={{ fontWeight: 500, color: 'var(--text-secondary)' }}>Total Price</span>
-            <span style={{ fontWeight: 700, fontSize: '20px', color: 'var(--primary-color)' }}>${ticket.totalPrice.toFixed(2)}</span>
+            <span style={{ fontWeight: 700, fontSize: '20px', color: 'var(--primary-color)' }}>฿{ticket.totalPrice.toFixed(2)}</span>
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>

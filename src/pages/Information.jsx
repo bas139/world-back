@@ -23,7 +23,7 @@ export default function Information() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const hourlyRate = 5.00;
+  const hourlyRate = 25.00;
   const parkingFee = duration * hourlyRate;
   const tax = parkingFee * 0.07;
   const totalPrice = parkingFee + tax;
@@ -42,7 +42,7 @@ export default function Information() {
     setError('');
     
     try {
-      const res = await fetch('http://localhost:3001/api/book', {
+      const res = await fetch('/api/book', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -116,18 +116,20 @@ export default function Information() {
         
         <div>
           <label style={{ display: 'block', fontSize: '14px', color: 'var(--text-secondary)', marginBottom: '8px', marginLeft: '4px' }}>Duration</label>
-          <select 
-            className="input-field" 
-            value={duration} 
-            onChange={(e) => setDuration(Number(e.target.value))}
-            style={{ marginBottom: 0, cursor: 'pointer', appearance: 'auto' }}
-          >
-            <option value={1}>1 Hour</option>
-            <option value={2}>2 Hours</option>
-            <option value={4}>4 Hours</option>
-            <option value={8}>8 Hours</option>
-            <option value={24}>Full Day (24h)</option>
-          </select>
+          <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+            <input 
+              type="number"
+              className="input-field" 
+              value={duration || ''} 
+              onChange={(e) => setDuration(Math.max(1, Math.min(24, Number(e.target.value))))}
+              min="1"
+              max="24"
+              style={{ marginBottom: 0, paddingRight: '72px' }}
+            />
+            <span style={{ position: 'absolute', right: '16px', color: 'var(--text-secondary)' }}>
+              Hour(s)
+            </span>
+          </div>
         </div>
       </div>
 
@@ -166,17 +168,17 @@ export default function Information() {
 
       <div className="glass-card" style={{ padding: '24px', marginBottom: '32px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px', color: 'var(--text-secondary)' }}>
-          <span>Parking ({duration} {duration > 1 ? 'hours' : 'hour'} @ ${hourlyRate.toFixed(2)})</span>
-          <span>${parkingFee.toFixed(2)}</span>
+          <span>Parking ({duration} {duration > 1 ? 'hours' : 'hour'} @ ฿{hourlyRate.toFixed(2)})</span>
+          <span>฿{parkingFee.toFixed(2)}</span>
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px', color: 'var(--text-secondary)' }}>
           <span>Tax (7%)</span>
-          <span>${tax.toFixed(2)}</span>
+          <span>฿{tax.toFixed(2)}</span>
         </div>
         <div style={{ width: '100%', height: '1px', background: 'var(--border-color)', margin: '16px 0' }} />
         <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 700, fontSize: '18px' }}>
           <span>Total</span>
-          <span style={{ color: 'var(--primary-color)' }}>${totalPrice.toFixed(2)}</span>
+          <span style={{ color: 'var(--primary-color)' }}>฿{totalPrice.toFixed(2)}</span>
         </div>
       </div>
 

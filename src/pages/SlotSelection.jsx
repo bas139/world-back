@@ -15,9 +15,20 @@ export default function SlotSelection() {
 
   const fetchSlots = async () => {
     try {
-      const res = await fetch('http://localhost:3001/api/slots');
+      const res = await fetch('/api/slots');
       const data = await res.json();
       setSlots(data);
+      
+      if (user) {
+        setSelectedSlot(prev => {
+          if (!prev) {
+            const lockedSlot = data.find(s => s.status === 'locked' && s.lockedBy === user.id);
+            return lockedSlot ? lockedSlot.id : null;
+          }
+          return prev;
+        });
+      }
+      
       setLoading(false);
     } catch (err) {
       console.error(err);
@@ -42,17 +53,34 @@ export default function SlotSelection() {
       return;
     }
 
+    const isLockedByMe = slot.status === 'locked' && slot.lockedBy === user.id;
+
     try {
-      const res = await fetch(`http://localhost:3001/api/slots/${slot.id}/lock`, {
-        method: 'POST',
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      const data = await res.json();
-      if (res.ok) {
-        setSelectedSlot(slot.id);
-        fetchSlots(); // Refresh immediately
+      if (isLockedByMe) {
+        // Unlock the slot
+        const res = await fetch(`/api/slots/${slot.id}/unlock`, {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (res.ok) {
+          if (selectedSlot === slot.id) {
+            setSelectedSlot(null);
+          }
+          fetchSlots(); // Refresh immediately
+        }
       } else {
-        alert(data.error);
+        // Lock the slot
+        const res = await fetch(`/api/slots/${slot.id}/lock`, {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
+        if (res.ok) {
+          setSelectedSlot(slot.id);
+          fetchSlots(); // Refresh immediately
+        } else {
+          alert(data.error);
+        }
       }
     } catch (err) {
       console.error(err);

@@ -18,12 +18,12 @@ export default function BottomNav() {
         className="nav-item"
         style={{ 
           cursor: 'pointer',
-          background: 'var(--primary-color)', 
-          color: 'white', 
+          background: 'linear-gradient(135deg, var(--primary-color), var(--accent-color))', 
+          color: 'var(--text-primary)', 
           borderRadius: '50%', 
           padding: '12px',
           marginTop: '-24px',
-          boxShadow: '0 4px 6px rgba(79, 70, 229, 0.3)'
+          boxShadow: '0 4px 10px rgba(188, 160, 220, 0.4)'
         }}
         onClick={() => navigate('/floor')}
       >

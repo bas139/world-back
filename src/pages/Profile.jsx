@@ -25,7 +25,7 @@ export default function Profile() {
 
     const fetchTickets = async () => {
       try {
-        const res = await fetch('http://localhost:3001/api/my-tickets', {
+        const res = await fetch('/api/my-tickets', {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         const data = await res.json();
@@ -59,7 +59,7 @@ export default function Profile() {
   const handleSaveProfile = async () => {
     setSaving(true);
     try {
-      const res = await fetch('http://localhost:3001/api/profile', {
+      const res = await fetch('/api/profile', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -152,7 +152,7 @@ export default function Profile() {
                       </div>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                         <span style={{ fontWeight: 600, color: 'var(--primary-color)' }}>
-                          ${ticket.totalPrice.toFixed(2)}
+                          ฿{ticket.totalPrice.toFixed(2)}
                         </span>
                         <ChevronRight size={20} color="var(--text-secondary)" />
                       </div>

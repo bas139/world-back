@@ -3,6 +3,7 @@ const cors = require('cors');
 const sqlite3 = require('sqlite3').verbose();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const path = require('path');
 
 const app = express();
 const PORT = 3001;
@@ -251,6 +252,14 @@ app.get('/api/my-tickets', authenticateToken, (req, res) => {
     if (err) return res.status(500).json({ error: err.message });
     res.json(rows);
   });
+});
+
+// Serve frontend static files
+app.use(express.static(path.join(__dirname, '../dist')));
+
+// Catch-all to serve index.html for React Router
+app.use((req, res) => {
+  res.sendFile(path.join(__dirname, '../dist/index.html'));
 });
 
 app.listen(PORT, () => {

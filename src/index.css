@@ -1,14 +1,15 @@
 :root {
-  --primary-color: #4f46e5; /* Indigo 600 */
-  --primary-hover: #4338ca;
-  --bg-color: #f8fafc; /* Slate 50 */
+  --primary-color: #bca0dc; /* Pastel Purple */
+  --primary-hover: #a685cd;
+  --accent-color: #fcf4dd; /* Pastel Yellow */
+  --bg-color: #faf8fc; /* Slight purple-tinted white */
   --surface-color: #ffffff;
-  --text-primary: #0f172a;
-  --text-secondary: #64748b;
-  --border-color: #e2e8f0;
-  --success-color: #10b981;
-  --danger-color: #ef4444;
-  --locked-color: #94a3b8;
+  --text-primary: #4a4063; /* Dark muted purple for text */
+  --text-secondary: #8c7f99;
+  --border-color: #e5dff0;
+  --success-color: #a2d5c6;
+  --danger-color: #f4b6c2;
+  --locked-color: #d1c4e9;
   
   --font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
@@ -82,22 +83,22 @@ body {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
-  color: white;
+  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  color: var(--text-primary);
   border: none;
   border-radius: 12px;
   padding: 16px;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
   width: 100%;
   transition: transform 0.2s, box-shadow 0.2s;
-  box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.3);
+  box-shadow: 0 4px 10px -2px rgba(188, 160, 220, 0.4);
 }
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.4);
+  box-shadow: 0 10px 15px -3px rgba(188, 160, 220, 0.6);
 }
 
 .btn-primary:active {

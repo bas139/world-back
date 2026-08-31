@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
       
       if (storedToken) {
         try {
-          const res = await fetch('http://localhost:3001/api/me', {
+          const res = await fetch('/api/me', {
             headers: { 'Authorization': `Bearer ${storedToken}` }
           });
           
@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password, rememberMe = true) => {
     try {
-      const response = await fetch('http://localhost:3001/api/login', {
+      const response = await fetch('/api/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
@@ -76,7 +76,7 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (email, password, name) => {
     try {
-      const response = await fetch('http://localhost:3001/api/register', {
+      const response = await fetch('/api/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password, name })
